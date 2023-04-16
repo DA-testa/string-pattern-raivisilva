@@ -11,14 +11,10 @@ def read_input():
         return (pattern, text)
 
     elif "F" in izvele:
-        faila_nosaukums = input()
-        if 'a' in faila_nosaukums:
-            return
-        else:
-            with open("./tests/06", mode='r') as f:
-                pattern = f.readline().rstrip()
-                text = f.readline().rstrip()
-                return (pattern, text)
+        with open("./tests/06", mode='r') as f:
+            pattern = f.readline().rstrip()
+            text = f.readline().rstrip()
+            return (pattern, text)
     
 
 def print_occurrences(output):
@@ -29,6 +25,7 @@ def get_occurrences(pattern, text):
     pattern_length = len(pattern)
     if pattern_length > len(text):
         return []
+    
     pattern_hash = hash(pattern)
     text_hash = hash(text[:pattern_length])
     repetitions = []
@@ -36,10 +33,7 @@ def get_occurrences(pattern, text):
     for i in range(len(text)-pattern_length + 1):
         if text_hash == pattern_hash and text[i:i+pattern_length] == pattern:
             repetitions.append(i)
-
-        if i < len(text) - pattern_length:
-            text_hash = (text_hash - ord(text[i])*pow(128, pattern_length-1)) * 128 + ord(text[i+pattern_length])
-
+        text_hash = text_hash - hash(text[i]) + hash(text[i+pattern_length])
     return repetitions
 
 # this part launches the functions
