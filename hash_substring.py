@@ -22,26 +22,25 @@ def print_occurrences(output):
     print(' '.join(map(str, output)))
 
 def get_occurrences(pattern, text):
-    p_len = len(pattern)
-    t_len = len(text)
-    prime = 101 
-    p_hash = 0  
-    t_hash = 0   
-    occurances = []
+    pattern_length = len(pattern)
+    text_length = len(text)
+    prime_numbers = 31  
+    pattern_hash = 0  
+    text_hash = 0   
+    repeat = []
 
-    for i in range(p_len):
-        p_hash += ord(pattern[i]) * pow(prime, i)
-        t_hash += ord(text[i]) * pow(prime, i)
+    for i in range(pattern_length):
+        pattern_hash = (pattern_hash << 1) + ord(pattern[i])
+        text_hash = (text_hash << 1) + ord(text[i])
 
-    for i in range(t_len - p_len + 1):
-        if p_hash == t_hash and pattern == text[i:i+p_len]:
-            occurances.append(i)
+    for i in range(text_length - pattern_length + 1):
+        if pattern_hash == text_hash and pattern == text[i:i+pattern_length]:
+            repeat.append(i)
 
-        if i < t_len - p_len:
-            t_hash = (t_hash - ord(text[i]) * pow(prime, 0)) // prime
-            t_hash += ord(text[i+p_len]) * pow(prime, p_len-1)
+        if i < text_length - pattern_length:
+            text_hash = ((text_hash - ord(text[i]) * (prime_numbers ** (pattern_length - 1))) << 1) + ord(text[i+pattern_length])
 
-    return occurances
+    return repeat
 
 # this part launches the functions
 if __name__ == '__main__':
