@@ -1,19 +1,19 @@
 # python3
 
 def read_input():
-    # this function needs to aquire input both from keyboard and file
-    # as before, use capital i (input from keyboard) and capital f (input from file) to choose which input type will follow
     izvele = input()
 
     if "I" in izvele:
         pattern = input().rstrip()
         text = input().rstrip()
-        return (pattern, text)
+        if 1 <= len(pattern) <= len(text) <= (5 * 10**5):
+            return (pattern, text)
 
     elif "F" in izvele:
         with open("./tests/06", mode='r') as f:
             pattern = f.readline().rstrip()
             text = f.readline().rstrip()
+        if 1 <= len(pattern) <= len(text) <= (5 * 10**5):
             return (pattern, text)
     
 
