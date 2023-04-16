@@ -15,30 +15,22 @@ def read_input():
         if 1 <= len(pattern) <= len(text) <= (5 * 10**5):
             return (pattern, text)
 
-
 def print_occurrences(output):
     print(' '.join(map(str, output)))
 
 
 def get_occurrences(pattern, text):
-    pattern_length, text_length = len(pattern), len(text)
-    prime_number, pattern_hash, text_hash, repetitions = 101, 0, 0, []
-
-    for i in range(pattern_length):
-        pattern_hash += ord(pattern[i]) * pow(prime_number, i)
-        text_hash += ord(text[i]) * pow(prime_number, i)
+    pattern_hash, text_hash = hash(pattern), hash(text[:len(pattern)])
+    text_length, pattern_length = len(text), len(pattern)
+    occurances = []
 
     for i in range(text_length - pattern_length + 1):
-        if pattern_hash == text_hash and pattern == text[i:i+pattern_length]:
-            repetitions.append(i)
-
+        if text_hash == pattern_hash and text[i:i+pattern_length] == pattern:
+            occurances.append(i)
         if i < text_length - pattern_length:
-            text_hash = (
-                text_hash - ord(text[i]) * pow(prime_number, 0)) // prime_number
-            text_hash += ord(text[i+pattern_length]) * \
-                pow(prime_number, pattern_length-1)
+            text_hash = hash(text[i+1:i+pattern_length+1])
 
-    return repetitions
+    return occurances
 
 
 if __name__ == '__main__':
