@@ -30,6 +30,7 @@ def get_occurrences(pattern, text):
         if i < text_length - pattern_length:
             text_hash = hash(text[i+1:i+pattern_length+1])
 
+            
     return occurances
 
 
